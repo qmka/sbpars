@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-from sbpars.app import parser, export_to_csv
+from sbpars.app import parser, export_to_csv, export_to_excel
 
 
 def main():
@@ -7,7 +7,9 @@ def main():
     data = parser()
     print("Successfully parsed index.html file")
     export_to_csv(data)
-    print("Successfully exported to .csv table\nWell done!")
+    print("Successfully exported to .csv table")
+    export_to_excel(data)
+    print("Successfully exported to .xslx table\nWell done!")
 
 
 if __name__ == '__main__':

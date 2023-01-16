@@ -1,5 +1,5 @@
 from bs4 import BeautifulSoup
-import csv
+import pandas as pd
 
 
 def parser():
@@ -7,16 +7,11 @@ def parser():
     # { 'shop': ... , 'date': ... , 'cost': ... , 'category': ... }
     result = []
 
-    # Указываем, какой файл будем парсить
     with open('index.html', 'r') as f:
         file_to_parse = f.read()
 
-    # Делаем суп
     soup = BeautifulSoup(file_to_parse, 'html.parser')
     soup.prettify()
-
-    # title_tag = (soup.find('title'))
-    # print(title_tag.text) ('td', {'class':'td-text td-text_bold'})
 
     trs = soup.find_all('div', {'class': 'trs_it'})
 
@@ -45,29 +40,31 @@ def parser():
         tr_cat = tr_data.contents[3].contents[1].contents[0].contents[0]
 
         result.append({
-            'shop': tr_shop,
             'date': tr_date,
+            'category': tr_cat,
+            'shop': tr_shop,
             'cost': tr_cost,
-            'category': tr_cat
         })
 
     return result
 
 
-def export_to_csv(parsed_data):
-
-    f = open('transactions.csv', "w+")
-    f.close()
-
-    with open('transactions.csv', 'w', newline='') as csvfile:
-        fieldnames = ['shop', 'date', 'cost', 'category']
-        writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
-
-        writer.writeheader()
-
+def convert_to_dataframe(parsed_data):
+    converted_data = {}
+    keys = list(parsed_data[0].keys())
+    for key in keys:
+        values = []
         for tr in parsed_data:
-            writer.writerow({
-                'date': tr['date'],
-                'category': tr['category'],
-                'shop': tr['shop'],
-                'cost': tr['cost']})
+            values.append(tr[key])
+        converted_data[key] = values
+    return converted_data
+
+
+def export_to_excel(data):
+    dframe = pd.DataFrame(data)
+    dframe.to_excel('transactions.xlsx', index=False)
+
+
+def export_to_csv(data):
+    dframe = pd.DataFrame(data)
+    dframe.to_csv('transactions.csv', index=False)
