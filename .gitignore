@@ -4,3 +4,4 @@ dist/
 __pycache__
 index.html
 transactions.csv
+transactions.xlsx
