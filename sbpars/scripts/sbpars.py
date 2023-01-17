@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 from sbpars.app import parser, export_to_csv, export_to_excel
 
 
