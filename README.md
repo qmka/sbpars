@@ -17,6 +17,7 @@
 ```
 pip install sbpars
 ```
+
 Далее запускаем в папке, где находится index.html:
 ```
 sbpars
