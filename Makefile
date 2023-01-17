@@ -13,3 +13,10 @@ check:
 
 lint:
 	poetry run flake8
+
+build:
+	poetry build
+
+publish-dev:
+	poetry publish --dry-run
+	python3 -m pip install --user dist/*.whl
